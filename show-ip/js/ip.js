@@ -46,7 +46,7 @@ function logit(msg) {
 }
 
 function callServer(server) {
-    var api = "https://" + server + ".com/api/what-is-my-ip/";
+    var api = "https://" + server + ".com/api/what-is-my-ip/?cached&version=" + getChromeVersion();
     logit("Connecting API: " + api);
     $.ajax({
         type: "GET",
@@ -66,6 +66,7 @@ function callServer(server) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    logit("Chrome Version: " + getChromeVersion());
     callServer("helloacm");
     callServer("happyukgo");
 }, false);
