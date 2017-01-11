@@ -46,7 +46,7 @@ function logit(msg) {
 }
 
 function callServer(server) {
-    var api = "https://" + server + ".com/api/what-is-my-ip/?cached&version=" + getChromeVersion();
+    var api = "https://" + server + ".com/api/what-is-my-ip/?version=" + getChromeVersion();
     logit("Connecting API: " + api);
     $.ajax({
         type: "GET",
