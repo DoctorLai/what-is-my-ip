@@ -68,6 +68,7 @@ function callServer(server) {
 document.addEventListener('DOMContentLoaded', function() {
     logit("Chrome Version: " + getChromeVersion());
     callServer("helloacm");
+    callServer("uploadbeta");
     callServer("happyukgo");
 }, false);
 
