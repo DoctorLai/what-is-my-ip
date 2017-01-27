@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Show My IP Addresses (External and Local)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "Show My IP Addresses (External and Local)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}

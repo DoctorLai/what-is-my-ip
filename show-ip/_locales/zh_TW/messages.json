@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "显示我的IP地址(内网和外网) Show My IP Addresses (Internal and External)",
+    "description": "显示我的IP地址(内网和外网) This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "显示我的IP地址(内网和外网) Show My IP Addresses (Internal and External)",
+    "description": "显示我的IP地址(内网和外网) This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}

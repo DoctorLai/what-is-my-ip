@@ -35,7 +35,7 @@ function getLocalIPs(callback) {
 
 var ipaddress = '';
 getLocalIPs(function(ips) { // <!-- ips is an array of local IP addresses.
-    ipaddress = ips.join('-');
+    ipaddress = ips.join('\n');
     $('pre#ip2').html(ipaddress);
 });
 
