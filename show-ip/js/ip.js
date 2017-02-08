@@ -9,7 +9,7 @@ Web Tool
 https://helloacm.com/what-is-my-ip/
 
 Buy me a Coffee
-https://www.paypal.me/doctorlai/5
+https://www.paypal.me/doctorlai/3
 bitcoin:1J88t5UAgKBHhMgzkyH9bpY5mPdCYAe5XQ
 */
 
