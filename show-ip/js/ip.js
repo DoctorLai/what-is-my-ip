@@ -42,7 +42,7 @@ getLocalIPs(function(ips) { // <!-- ips is an array of local IP addresses.
 function logit(msg) {
     var dt = new Date();
     var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();    
-    $('pre#log').append(time + " " + msg + "\n");
+    //$('pre#log').append(time + " " + msg + "\n");
 }
 
 function callServer(server) {
