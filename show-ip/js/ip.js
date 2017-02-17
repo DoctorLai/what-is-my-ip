@@ -157,9 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
         logit("Version: " + manifest.version);        
         logit("Chrome Version: " + getChromeVersion());
         logit("May you do good, not evil.");
-        callServer("helloacm", "USA");
+        callServer("helloacm", "East USA");
         callServer("uploadbeta", "UK");
         callServer("happyukgo", "Singapore");  
+        callServer("steakovercooked", "West USA");  
     });
 }, false);
 
