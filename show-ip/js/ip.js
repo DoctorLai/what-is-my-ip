@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         logit("May you do good, not evil.");
         callServer("helloacm", "East USA");
         callServer("uploadbeta", "UK");
-        callServer("happyukgo", "Singapore");  
+        callServer("happyukgo", "Tokyo Japan");  
         callServer("steakovercooked", "West USA");  
     });
 }, false);
