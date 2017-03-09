@@ -3,7 +3,7 @@
   "name": "Show My IP Addresses (External and Local)",
   "short_name": "Show My IP",  
   "default_locale": "en",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "browser_action": {
      "default_icon": "icon.png",
      "default_title": "Show My IP Addresses (External and Local)",
@@ -27,8 +27,6 @@
      "activeTab",
      "storage",
      "tabs",
-     "https://helloacm.com/api/*",
-     "https://uploadbeta.com/api/*",
-     "https://happyukgo.com/api/*"
+     "<all_urls>"
   ]
 }
