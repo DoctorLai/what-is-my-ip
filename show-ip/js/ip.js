@@ -128,7 +128,7 @@ function callServer(server, loc) {
     var manifest = chrome.runtime.getManifest();
     var d = new Date();
     var y = d.getFullYear() + "_" +  d.getMonth() + "_" + d.getDate() + "_" + d.getHours() + "_" +  d.getMinutes();
-    var api = "https://" + server + ".com/api/what-is-my-ip/?version=" + getChromeVersion() + "&ip=" + MD5(ipaddress.replace("\n", "")) + "&time=" + y + "&ver=" + manifest.version;
+    var api = "https://" + server + ".com/api/what-is-my-ip-address/?version=" + getChromeVersion() + "&ip=" + MD5(ipaddress.replace("\n", "")) + "&time=" + y + "&ver=" + manifest.version;
     logit("Connecting API from " + loc + " Server ...");
     $.ajax({
         type: "GET",
