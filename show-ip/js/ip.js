@@ -148,6 +148,29 @@ function callServer(server, loc) {
     });    
 }
 
+function callThirdParty(server, name) {
+    var api = server;
+    logit("Connecting " + server + " ...");
+    $.ajax({
+        type: "GET",
+        url: api,
+        success: function(data) {
+            if (data && data['ip']) {
+                current_ip = data['ip'];
+                $('pre#ip').append(current_ip + "\n");
+            }
+        },
+        error: function(request, status, error) {
+            logit('Response: ' + request.responseText);
+            logit('Error: ' + error );
+            logit('Status: ' + status);
+        },
+        complete: function(data) {
+            logit('API Finished: ' + name + " Server!");
+        }             
+    });    
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     getLocalIPs(function(ips) { // <!-- ips is an array of local IP addresses.
         ipaddress = ips.join('\n');
@@ -161,6 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
         callServer("uploadbeta", "UK");
         callServer("happyukgo", "Tokyo Japan");  
         callServer("steakovercooked", "West USA");  
+        callThirdParty("https://api.ipify.org?format=json", "ipify.org");
     });
 }, false);
-
