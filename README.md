@@ -8,5 +8,8 @@ https://chrome.google.com/webstore/detail/show-my-ip-addresses-exte/opljiobgnagd
 https://helloacm.com/what-is-my-ip/
 
 # Buy me a Coffee
-- https://www.paypal.me/doctorlai/5
+- https://www.paypal.me/doctorlai/3
 - bitcoin:1J88t5UAgKBHhMgzkyH9bpY5mPdCYAe5XQ
+
+# Author
+[@justyy](https://steemit.com/@justyy)
