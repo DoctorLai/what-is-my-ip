@@ -118,7 +118,7 @@ MD5 = function(e) {
 function logit(msg) {
     var dt = new Date();
     var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();    
-    $('pre#log').append(time + " " + msg + "\n");
+    $('#log').append(time + " " + msg + "\n");
 }
 
 var current_ip = "";
@@ -134,7 +134,7 @@ function callServer(server, loc) {
         type: "GET",
         url: api,
         success: function(data) {
-            $('pre#ip').append(data + "\n");
+            $('#ip').append(data + "\n");
             current_ip = data;
         },
         error: function(request, status, error) {
@@ -157,7 +157,7 @@ function callThirdParty(server, name) {
         success: function(data) {
             if (data && data['ip']) {
                 current_ip = data['ip'];
-                $('pre#ip').append(current_ip + "\n");
+                $('#ip').append(current_ip + "\n");
             }
         },
         error: function(request, status, error) {
@@ -171,15 +171,34 @@ function callThirdParty(server, name) {
     });    
 }
 
+// Copy provided text to the clipboard.
+function copyTextToClipboard(text, t) {
+    var copyFrom = $('<textarea/>');
+    copyFrom.text(text);
+    $('body').append(copyFrom);
+    copyFrom.select();
+    document.execCommand('copy');
+    copyFrom.remove();
+    $(t).html('Copied!');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    $('#show_log').click(function() {
+        $('div#loglog').toggle();
+    });
+    $('#c1').click(function() {
+        copyTextToClipboard($('#ip').val(), $('#log1'));
+    });    
+    $('#c2').click(function() {
+        copyTextToClipboard($('#ip2').val(), $('#log2'));
+    });        
     getLocalIPs(function(ips) { // <!-- ips is an array of local IP addresses.
         ipaddress = ips.join('\n');
-        $('pre#ip2').html(ipaddress);
+        $('#ip2').html(ipaddress);
         var manifest = chrome.runtime.getManifest();
         logit(manifest.name);
         logit("Version: " + manifest.version);        
         logit("Chrome Version: " + getChromeVersion());
-        logit("May you do good, not evil.");
         callServer("helloacm", "East USA");
         callServer("uploadbeta", "UK");
         callServer("happyukgo", "Tokyo Japan");  

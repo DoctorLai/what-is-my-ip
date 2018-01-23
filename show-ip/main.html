@@ -9,18 +9,21 @@
     <link href="bs/css/bootstrap.min.css" rel="stylesheet">
     <script src="bs/js/bootstrap.min.js"></script>
     <style>
-      pre {word-wrap:break-word;width:500px;}
+      .fit {width: 350px;}
     </style>
   </head>
   <body>
-    Your External IP Address: 
-    <pre id=ip></pre>
-    Your Local IP Address:
-    <pre id=ip2></pre>
-    API Log:
-    <pre id=log></pre>
-    <a target=_blank href='https://helloacm.com/what-is-my-ip/?ref=chrome-extension'>Get IP Online (Free API)</a> | <a href='https://steakovercooked.com/out/email' target=_blank>Bug Report</a> | <a href='https://www.paypal.me/doctorlai/3' target=_blank>Donation</a> | <a target=_blank href='https://propagationtools.com/out/tcb'>TopCashBack (UK)</a><BR/>
-    <a target=_blank href='https://justyy.com/out/vultr2'>Get <B><font color=red>$10</font></B> Free Vultr Cloud VPS</a><BR/>
-    <a target=_blank href='https://helloacm.com/out/linode'>Get <B><font color=red>$20</font></B> Linode Cloud VPS</a> (Code: <B>PodcastInIt2018</B>)
+    &nbsp;<B>Your External IP Address:</B> <button title='Copy to Clipboard' id='c1'><img height=15px src="images/clippy.svg" alt="Copy to clipboard"></button><span id='log1'></span>
+    <textarea readonly class='fit' rows=7 id=ip></textarea>
+    &nbsp;<B>Your Local IP Address:</B> <button title='Copy to Clipboard' id='c2'><img height=15px src="images/clippy.svg" alt="Copy to clipboard"></button><span id='log2'></span>
+    <textarea readonly class='fit' rows=5 id=ip2></textarea>
+    <label><input type='checkbox' id='show_log'/>Show API Log</label>
+    <div id=loglog class='fit' style='display:none'>
+      <textarea id=log class='fit' rows=15 readonly></textarea>
+      <a href='https://www.paypal.me/doctorlai/3' target=_blank>Donation</a> | <a target=_blank href='https://propagationtools.com/out/tcb'>TopCashBack (UK)</a><BR/>
+      <a target=_blank href='https://justyy.com/out/vultr2'>Get <B><font color=red>$10</font></B> Free Vultr Cloud VPS</a><BR/>
+      <a target=_blank href='https://helloacm.com/out/linode'>Get <B><font color=red>$20</font></B> Linode Cloud VPS</a> (Code: <B>PodcastInIt2018</B>)
+    </div>
+    <a target=_blank href='https://helloacm.com/what-is-my-ip/?ref=chrome-extension'>Get IP Online (Free API)</a> | <a href='https://steakovercooked.com/out/email' target=_blank>Bug Report</a>
   </body>
 </html>
