@@ -13,3 +13,6 @@ https://helloacm.com/what-is-my-ip/
 
 # Author
 [@justyy](https://steemit.com/@justyy)
+
+# Posts
+[Adding Clipboard Support to Chrome Extension: Show My IP Addresses](https://helloacm.com/adding-clipboard-support-to-chrome-extension-show-my-ip-addresses-external-and-local/)
