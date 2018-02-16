@@ -1,4 +1,6 @@
 # what-is-my-ip
+![](https://github.com/DoctorLai/what-is-my-ip/blob/master/show-ip/images/chrome-extension-show-ip-screenshot.jpg?raw=true)
+
 Chrome Extension to show Both Local and Public IP Addresses. This chrome extension shows the external and internal IP addresses when you click the extension icon. 
 
 # Chrome Extension URL
