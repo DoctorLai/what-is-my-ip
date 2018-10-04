@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#show_log').click(function() {
         $('div#loglog').toggle();
     });
+    $('#code').html("PodcastInIt" + (new Date()).getFullYear());
     $('#c1').click(function() {
         copyTextToClipboard($('#ip').val(), $('#log1'));
     });    
@@ -200,9 +201,10 @@ document.addEventListener('DOMContentLoaded', function() {
         logit("Version: " + manifest.version);        
         logit("Chrome Version: " + getChromeVersion());
         callServer("helloacm", "East USA");
-        callServer("uploadbeta", "UK");
+        callServer("uploadbeta", "London UK");
         callServer("happyukgo", "Tokyo Japan");  
         callServer("steakovercooked", "West USA");  
+        callServer("anothervps", "Frankfurt Germany");  
         callThirdParty("https://api.ipify.org?format=json", "ipify.org");
     });
 }, false);
