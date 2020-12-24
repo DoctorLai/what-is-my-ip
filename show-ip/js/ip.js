@@ -158,6 +158,9 @@ function callThirdParty(server, name) {
             if (data && data['ip']) {
                 current_ip = data['ip'];
                 $('#ip').append(current_ip + "\n");
+            } else if (data) {
+                current_ip = data;
+                $('#ip').append(current_ip + "\n");
             }
         },
         error: function(request, status, error) {
@@ -200,11 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
         logit(manifest.name);
         logit("Version: " + manifest.version);        
         logit("Chrome Version: " + getChromeVersion());
-        callServer("helloacm", "East USA");
-        callServer("uploadbeta", "London UK");
-        callServer("happyukgo", "Tokyo Japan");  
-        callServer("steakovercooked", "West USA");  
-        callServer("anothervps", "Frankfurt Germany");  
-        callThirdParty("https://api.ipify.org?format=json", "ipify.org");
+        //callServer("anothervps.com", "London UK");
+        callThirdParty("https://what-is-my-ip.justyy.workers.dev/", "what-is-my-ip.justyy.workers.dev");
+        callThirdParty("https://api.ipify.org?format=json", "ipify.org");        
     });
 }, false);
