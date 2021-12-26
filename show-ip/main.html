@@ -5,6 +5,7 @@
     <title>Show IP Address</title>
     <meta name="author" content="https://weibomiaopai.com">
     <script src="js/jquery.js"></script>
+    <script src="js/MD5.js"></script>
     <script src="js/ip.js"></script>
     <link href="bs/css/bootstrap.min.css" rel="stylesheet">
     <script src="bs/js/bootstrap.min.js"></script>
@@ -15,6 +16,8 @@
   <body>
     &nbsp;<B>Your External IP Address:</B> <button title='Copy to Clipboard' id='c1'><img height=15px src="images/clippy.svg" alt="Copy to clipboard"></button><span id='log1'></span>
     <textarea readonly class='fit' rows=7 id=ip></textarea>
+    &nbsp;<B>Your Previous External IP Address:</B> <button title='Copy to Clipboard' id='c3'><img height=15px src="images/clippy.svg" alt="Copy to clipboard"></button><button title='Clear' id='resetbtn'>Clear</button><span id='log3'></span>
+    <textarea readonly class='fit' rows=7 id=ip3></textarea>
     &nbsp;<B>Your Local IP Address:</B> <button title='Copy to Clipboard' id='c2'><img height=15px src="images/clippy.svg" alt="Copy to clipboard"></button><span id='log2'></span>
     <textarea readonly class='fit' rows=5 id=ip2></textarea>
     <label><input type='checkbox' id='show_log'/>Show API Log</label>
