@@ -1,5 +1,5 @@
 # what-is-my-ip
-![](https://github.com/DoctorLai/what-is-my-ip/blob/master/show-ip/images/chrome-extension-show-ip-screenshot.jpg?raw=true)
+![](https://helloacm.com/static/what-is-my-ip.jpg)
 
 Chrome Extension to show Both Local and Public IP Addresses. This chrome extension shows the external and internal IP addresses when you click the extension icon. 
 
@@ -11,6 +11,7 @@ https://helloacm.com/what-is-my-ip/
 
 # Buy me a Coffee
 - https://www.paypal.me/doctorlai/3
+- https://justyy.com/out/buymeacoffee
 - bitcoin:1J88t5UAgKBHhMgzkyH9bpY5mPdCYAe5XQ
 
 # Author
