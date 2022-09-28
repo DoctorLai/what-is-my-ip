@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // first time set default parameters
             console.log("Previous IP Address Not Recorded.");
         }
-        callThirdParty("https://what-is-my-ip.justyy.workers.dev/", "what-is-my-ip.justyy.workers.dev");
+        callThirdParty("https://what-is-my-ip.functionapi.workers.dev/?from=chrome-extension", "what-is-my-ip.justyy.workers.dev");
         callThirdParty("https://api.ipify.org?format=json", "ipify.org");        
     });       
 
