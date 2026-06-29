@@ -5,6 +5,7 @@
  * extension (attached to `window.IPUtils`) and inside Node for unit tests.
  */
 (function (root, factory) {
+  /* istanbul ignore next */
   if (typeof module === 'object' && module.exports) {
     module.exports = factory();
   } else {

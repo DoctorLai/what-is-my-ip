@@ -92,6 +92,26 @@ function copyTextToClipboard(text, target) {
   setTimeout(() => $(target).html(''), 1500);
 }
 
+function lookupExternalIP() {
+  $('#ip').val('');
+  callThirdParty(
+    'https://what-is-my-ip.functionapi.workers.dev/?from=chrome-extension',
+    'what-is-my-ip.justyy.workers.dev'
+  );
+  callThirdParty('https://api.ipify.org?format=json', 'ipify.org');
+}
+
+function lookupLocalIP() {
+  $('#ip2').val('');
+  getLocalIPs((ips) => $('#ip2').html(ips.map(annotate).join('\n')));
+}
+
+function refresh() {
+  logit('Refreshing ...');
+  lookupExternalIP();
+  lookupLocalIP();
+}
+
 document.addEventListener(
   'DOMContentLoaded',
   function () {
@@ -100,6 +120,7 @@ document.addEventListener(
     $('#c1').click(() => copyTextToClipboard($('#ip').val(), $('#log1')));
     $('#c2').click(() => copyTextToClipboard($('#ip2').val(), $('#log2')));
     $('#c3').click(() => copyTextToClipboard($('#ip3').val(), $('#log3')));
+    $('#refreshbtn').click(refresh);
     $('#resetbtn').click(() => {
       $('#ip3').val('');
       prevAddr = [];
@@ -111,14 +132,10 @@ document.addEventListener(
         prevAddr = data.showip.external_ip || [];
         $('#ip3').val(prevAddr.map(annotate).join('\n'));
       }
-      callThirdParty(
-        'https://what-is-my-ip.functionapi.workers.dev/?from=chrome-extension',
-        'what-is-my-ip.justyy.workers.dev'
-      );
-      callThirdParty('https://api.ipify.org?format=json', 'ipify.org');
+      lookupExternalIP();
     });
 
-    getLocalIPs((ips) => $('#ip2').html(ips.map(annotate).join('\n')));
+    lookupLocalIP();
 
     const manifest = chrome.runtime.getManifest();
     logit(manifest.name);

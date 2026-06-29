@@ -1,0 +1,24 @@
+# Normalize line endings to LF on checkout/commit (matches Prettier config).
+* text=auto eol=lf
+
+# Explicitly binary assets — never normalize or diff these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+
+# Vendored / third-party libraries — exclude from GitHub language statistics
+# and collapse them in diffs.
+show-ip/js/jquery.js linguist-vendored
+show-ip/js/MD5.js linguist-vendored
+show-ip/js/clipboard.min.js linguist-vendored
+show-ip/bs/** linguist-vendored
+*.min.js linguist-generated
+*.min.css linguist-generated
+package-lock.json linguist-generated

@@ -95,12 +95,41 @@
         font-weight: 500;
         font-size: 0.7rem;
       }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #1e1e1e;
+          color: #e8e8e8;
+        }
+        textarea {
+          background-color: #2a2a2a;
+          color: #e8e8e8;
+          border-color: #444;
+        }
+        .button,
+        .copy-button {
+          color: #e8e8e8;
+          border-color: #444;
+        }
+        .copy-button img {
+          filter: invert(0.9);
+        }
+        .footer {
+          background-color: #252526;
+          color: #e8e8e8;
+        }
+        a {
+          color: #4ea1ff;
+        }
+      }
     </style>
   </head>
   <body class="wrapper">
     <div class="box">
       <div class="title-bar">
         <b>Your External IP Address:</b>
+        <div style="display: flex">
+          <button title="Refresh" id="refreshbtn" class="button">Refresh</button>
+        </div>
       </div>
       <div class="textarea-wrapper">
         <textarea readonly rows="7" id="ip"></textarea>

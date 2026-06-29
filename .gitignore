@@ -1,5 +1,19 @@
-*.zip
+# Dependencies
 node_modules/
-coverage/
+
+# Build output / packages
 dist/
+*.zip
+
+# Test coverage
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor cruft
 .DS_Store
+Thumbs.db
+.idea/
+*.swp
