@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "Show My IP Addresses (External and Local)",
+    "message": "আমার আইপি ঠিকানা দেখান (বাহ্যিক এবং স্থানীয়)",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   },
   "appDesc": {
-    "message": "Shows your external and local IP addresses in one click. https://helloacm.com/what-is-my-ip/",
+    "message": "এক ক্লিকে আপনার বাহ্যিক এবং স্থানীয় আইপি ঠিকানা দেখায়। https://helloacm.com/what-is-my-ip/",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   }
 }
