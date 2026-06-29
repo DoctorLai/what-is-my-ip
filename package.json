@@ -1,8 +1,11 @@
 {
   "name": "what-is-my-ip",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Chrome extension that shows your external and local IP addresses in one click.",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
@@ -11,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run lint && npm run format:check && npm test",
+    "check": "npm run lint && npm run format:check && npm run coverage",
     "build": "node scripts/build.js"
   },
   "keywords": [
@@ -33,6 +36,7 @@
     "url": "https://github.com/doctorlai/what-is-my-ip/issues"
   },
   "devDependencies": {
+    "archiver": "^7.0.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "prettier": "^3.3.3"

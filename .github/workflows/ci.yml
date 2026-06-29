@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ['**']
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Lint, format & test
@@ -24,9 +27,23 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm run coverage
-      - name: Upload coverage to Codecov
-        if: matrix.node-version == 22
-        uses: codecov/codecov-action@v4
+
+  build:
+    name: Build extension package
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          files: ./coverage/lcov.info
-          fail_ci_if_error: false
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Upload packaged extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: show-ip-extension
+          path: dist/*.zip
+          if-no-files-found: error

@@ -52,10 +52,19 @@ describe('isValidIPv6', () => {
     '1:2:3:4:5:6:7:',
     ':1:2:3:4:5:6:7',
     '1:2:3:4:5:6::192.168.0.1',
+    'fe80::1::2',
+    '1.1.1.1:2.2.2.2',
+    '1.2.3.4::1',
     'hello',
     '',
   ])('rejects %s', (ip) => {
     expect(IPUtils.isValidIPv6(ip)).toBe(false);
+  });
+
+  test('rejects non-string', () => {
+    expect(IPUtils.isValidIPv6(null)).toBe(false);
+    expect(IPUtils.isValidIPv6(undefined)).toBe(false);
+    expect(IPUtils.isValidIPv6(2001)).toBe(false);
   });
 });
 
@@ -85,6 +94,13 @@ describe('isPrivateIP', () => {
 
   test.each(['8.8.8.8', '1.1.1.1', '172.32.0.1', '2001:db8::1'])('flags %s as public', (ip) => {
     expect(IPUtils.isPrivateIP(ip)).toBe(false);
+  });
+
+  test('returns false for non-IP input', () => {
+    expect(IPUtils.isPrivateIP('not-an-ip')).toBe(false);
+    expect(IPUtils.isPrivateIP('')).toBe(false);
+    expect(IPUtils.isPrivateIP(42)).toBe(false);
+    expect(IPUtils.isPrivateIP(null)).toBe(false);
   });
 });
 
@@ -142,5 +158,10 @@ describe('formatTime', () => {
   test('zero-pads time', () => {
     const d = new Date(2024, 0, 1, 9, 5, 3);
     expect(IPUtils.formatTime(d)).toBe('09:05:03');
+  });
+
+  test('falls back to now for non-Date input', () => {
+    expect(IPUtils.formatTime('not a date')).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+    expect(IPUtils.formatTime()).toMatch(/^\d{2}:\d{2}:\d{2}$/);
   });
 });
