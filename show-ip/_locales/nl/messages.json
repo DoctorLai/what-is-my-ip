@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "Show My IP Addresses (External and Local)",
+    "message": "Mijn IP-adressen tonen (extern en lokaal)",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   },
   "appDesc": {
-    "message": "Shows your external and local IP addresses in one click. https://helloacm.com/what-is-my-ip/",
+    "message": "Toont uw externe en lokale IP-adressen met één klik. https://helloacm.com/what-is-my-ip/",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   }
 }

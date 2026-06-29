@@ -1,0 +1,8 @@
+show-ip/js/jquery.js
+show-ip/js/MD5.js
+show-ip/js/clipboard.min.js
+show-ip/bs/
+coverage/
+dist/
+node_modules/
+*.min.js
