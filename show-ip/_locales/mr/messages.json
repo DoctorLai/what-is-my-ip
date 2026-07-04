@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "माझा IP पत्ता दाखवा (बाह्य व स्थानिक)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "एका क्लिकवर तुमचा बाह्य व स्थानिक IP पत्ता दाखवतो. https://helloacm.com/what-is-my-ip/",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}

@@ -1,0 +1,42 @@
+# Dependabot keeps dependencies up to date automatically.
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # npm dev tooling (eslint, prettier, jest, archiver, ...)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - javascript
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      # Batch minor & patch bumps into a single PR to reduce noise.
+      dev-dependencies:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+
+  # GitHub Actions used by the CI workflow
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: chore

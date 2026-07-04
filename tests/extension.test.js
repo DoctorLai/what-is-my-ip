@@ -25,6 +25,13 @@ describe('extension package', () => {
 
     expect(manifest.host_permissions).toEqual(expect.arrayContaining(endpointHosts));
   });
+
+  test('manifest and package.json report the same version', () => {
+    const manifest = JSON.parse(readProjectFile('show-ip/manifest.json'));
+    const pkg = JSON.parse(readProjectFile('package.json'));
+    expect(manifest.version).toBe(pkg.version);
+    expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
+  });
 });
 
 describe('annotate', () => {
@@ -36,6 +43,7 @@ describe('annotate', () => {
     expect(annotate('192.168.1.1')).toBe('192.168.1.1  [IPv4, private]'));
   test('labels public IPv6', () =>
     expect(annotate('2001:db8::1')).toBe('2001:db8::1  [IPv6, public]'));
+  test('labels private IPv6', () => expect(annotate('fe80::1')).toBe('fe80::1  [IPv6, private]'));
   test('passes through invalid', () => expect(annotate('nope')).toBe('nope'));
 });
 
@@ -45,8 +53,14 @@ describe('locales', () => {
   const manifest = readProjectFile('show-ip/manifest.json');
   const manifestKeys = [...manifest.matchAll(/__MSG_(\w+)__/g)].map(([, key]) => key);
 
-  test('ships 20+ languages', () => {
-    expect(locales.length).toBeGreaterThanOrEqual(20);
+  test('ships 25+ locale folders', () => {
+    expect(locales.length).toBeGreaterThanOrEqual(25);
+  });
+
+  test('covers 25+ distinct languages', () => {
+    // Collapse regional variants (en_GB, zh_CN, pt_BR, ...) to their base language.
+    const baseLanguages = new Set(locales.map((locale) => locale.split('_')[0]));
+    expect(baseLanguages.size).toBeGreaterThanOrEqual(25);
   });
 
   test.each(locales)('%s has valid appName/appDesc messages', (locale) => {

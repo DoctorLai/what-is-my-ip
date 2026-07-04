@@ -11,6 +11,20 @@ const IP = typeof IPUtils !== 'undefined' ? IPUtils : require('./iputils');
 
 let prevAddr = [];
 
+// Cap the stored public-IP history so it can never grow without bound.
+const MAX_HISTORY = 50;
+
+// Number of in-flight external lookups, used to drive the Refresh button state.
+let pendingLookups = 0;
+
+function setBusy(busy) {
+  pendingLookups = busy ? pendingLookups + 1 : Math.max(0, pendingLookups - 1);
+  const active = pendingLookups > 0;
+  $('#refreshbtn')
+    .prop('disabled', active)
+    .text(active ? 'Refreshing\u2026' : 'Refresh');
+}
+
 function saveSettings() {
   chrome.storage.sync.set({ showip: { external_ip: prevAddr } });
 }
@@ -52,7 +66,7 @@ function logit(msg) {
 }
 
 function process(currentIp) {
-  const next = IP.dedupePrepend(prevAddr, currentIp);
+  const next = IP.dedupePrepend(prevAddr, currentIp, MAX_HISTORY);
   if (next.length !== prevAddr.length) {
     prevAddr = next;
     $('#ip3').val(prevAddr.map(annotate).join('\n'));
@@ -62,13 +76,19 @@ function process(currentIp) {
 
 function callThirdParty(server, name) {
   logit('Connecting ' + name + ' ...');
+  setBusy(true);
   $.ajax({
     type: 'GET',
     url: server,
+    timeout: 8000,
     success: function (data) {
       const currentIp = IP.parseIpResponse(data);
       if (currentIp) {
-        $('#ip').append(annotate(currentIp) + '\n');
+        const line = annotate(currentIp);
+        const existing = $('#ip').val();
+        // Set via .val() (not .append()): once a <textarea> is cleared with
+        // .val(''), its dirty-value flag means .append() no longer re-renders.
+        $('#ip').val(existing ? existing + '\n' + line : line);
         process(currentIp);
       }
     },
@@ -77,19 +97,30 @@ function callThirdParty(server, name) {
     },
     complete: function () {
       logit('API Finished: ' + name + ' Server!');
+      setBusy(false);
     },
   });
 }
 
 function copyTextToClipboard(text, target) {
-  const copyFrom = $('<textarea/>');
-  copyFrom.text(text);
-  $('body').append(copyFrom);
-  copyFrom.select();
-  document.execCommand('copy');
-  copyFrom.remove();
-  $(target).html('Copied!');
-  setTimeout(() => $(target).html(''), 1500);
+  const notify = () => {
+    $(target).html('Copied!');
+    setTimeout(() => $(target).html(''), 1500);
+  };
+  const legacyCopy = () => {
+    const copyFrom = $('<textarea/>');
+    copyFrom.text(text);
+    $('body').append(copyFrom);
+    copyFrom.select();
+    document.execCommand('copy');
+    copyFrom.remove();
+    notify();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(notify, legacyCopy);
+  } else {
+    legacyCopy();
+  }
 }
 
 function lookupExternalIP() {
@@ -103,7 +134,7 @@ function lookupExternalIP() {
 
 function lookupLocalIP() {
   $('#ip2').val('');
-  getLocalIPs((ips) => $('#ip2').html(ips.map(annotate).join('\n')));
+  getLocalIPs((ips) => $('#ip2').val(ips.map(annotate).join('\n')));
 }
 
 function refresh() {

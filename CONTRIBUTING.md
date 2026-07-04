@@ -38,7 +38,7 @@ npm run coverage    # tests + coverage (enforces the coverage threshold)
 npm run lint        # ESLint
 npm run lint:fix    # ESLint with autofix
 npm run format      # Prettier (write)
-npm run check       # lint + format check + coverage — run before opening a PR
+npm run check       # lint + format check + coverage + build — run before opening a PR
 npm run build       # package show-ip/ into dist/show-ip-<version>.zip
 ```
 
@@ -51,6 +51,13 @@ npm run build       # package show-ip/ into dist/show-ip-<version>.zip
   enforces that they stay in sync.
 - If you add a new user-visible string, update the locale files under
   `show-ip/_locales/`.
+- When bumping the release, update the `version` in **both**
+  [`package.json`](package.json) and
+  [`show-ip/manifest.json`](show-ip/manifest.json) — a test enforces they match.
+
+Opening a PR fills in the
+[pull request template](.github/PULL_REQUEST_TEMPLATE.md) automatically; please
+complete the checklist.
 
 ## Commit messages
 
@@ -68,6 +75,9 @@ docs: clarify install steps
 Please use the GitHub issue templates under
 [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE). Include your Chrome version
 and steps to reproduce for bug reports.
+
+Found a **security** vulnerability? Please do not file a public issue — follow
+the process in [SECURITY.md](SECURITY.md) instead.
 
 ## Code of conduct
 

@@ -142,6 +142,17 @@ describe('dedupePrepend', () => {
     expect(IPUtils.dedupePrepend(null, 'a')).toEqual(['a']);
     expect(IPUtils.dedupePrepend(['a'], '')).toEqual(['a']);
   });
+  test('caps history to the limit, keeping the newest entries', () => {
+    expect(IPUtils.dedupePrepend(['b', 'c'], 'a', 2)).toEqual(['a', 'b']);
+  });
+  test('ignores non-positive or missing limits', () => {
+    expect(IPUtils.dedupePrepend(['b', 'c'], 'a', 0)).toEqual(['a', 'b', 'c']);
+    expect(IPUtils.dedupePrepend(['b', 'c'], 'a', -1)).toEqual(['a', 'b', 'c']);
+    expect(IPUtils.dedupePrepend(['b', 'c'], 'a')).toEqual(['a', 'b', 'c']);
+  });
+  test('trims an over-long list even when the ip is a duplicate', () => {
+    expect(IPUtils.dedupePrepend(['a', 'b', 'c'], 'a', 2)).toEqual(['a', 'b']);
+  });
 });
 
 describe('getChromeVersion', () => {
@@ -163,5 +174,42 @@ describe('formatTime', () => {
   test('falls back to now for non-Date input', () => {
     expect(IPUtils.formatTime('not a date')).toMatch(/^\d{2}:\d{2}:\d{2}$/);
     expect(IPUtils.formatTime()).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+  });
+});
+
+describe('additional edge cases', () => {
+  test('isValidIPv4 trims surrounding whitespace', () => {
+    expect(IPUtils.isValidIPv4(' 10.0.0.1 ')).toBe(true);
+  });
+
+  test('isValidIPv6 accepts uppercase hextets', () => {
+    expect(IPUtils.isValidIPv6('2001:DB8::FF00:42:8329')).toBe(true);
+  });
+
+  test('isPrivateIP is case-insensitive for IPv6', () => {
+    expect(IPUtils.isPrivateIP('FE80::1')).toBe(true);
+  });
+
+  test('extractIpFromCandidate reads an IPv6 host candidate', () => {
+    const line = 'candidate:10 1 UDP 2122252543 fe80::1 51111 typ host generation 0';
+    expect(IPUtils.extractIpFromCandidate(line)).toBe('fe80::1');
+  });
+
+  test('parseIpResponse trims an object ip', () => {
+    expect(IPUtils.parseIpResponse({ ip: '  8.8.8.8 ' })).toBe('8.8.8.8');
+  });
+
+  test('getChromeVersion parses a Chromium user-agent', () => {
+    expect(
+      IPUtils.getChromeVersion('Mozilla/5.0 (X11; Linux) Chromium/118.0.0.0 Safari/537.36')
+    ).toBe(118);
+  });
+
+  test('dedupePrepend keeps existing order when adding a new value', () => {
+    expect(IPUtils.dedupePrepend(['a', 'b'], 'c')).toEqual(['c', 'a', 'b']);
+  });
+
+  test('formatTime renders midnight as 00:00:00', () => {
+    expect(IPUtils.formatTime(new Date(2024, 0, 1, 0, 0, 0))).toBe('00:00:00');
   });
 });

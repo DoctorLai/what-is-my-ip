@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "నా IP చిరునామా చూపు (బాహ్య, స్థానికం)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "ఒకే క్లిక్‌తో మీ బాహ్య, స్థానిక IP చిరునామాలను చూపుతుంది. https://helloacm.com/what-is-my-ip/",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}

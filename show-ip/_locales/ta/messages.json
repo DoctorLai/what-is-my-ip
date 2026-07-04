@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "எனது IP முகவரியைக் காட்டு (வெளி, உள்)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "ஒரே கிளிக்கில் வெளி மற்றும் உள் IP முகவரிகளைக் காட்டும். https://helloacm.com/what-is-my-ip/",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}
