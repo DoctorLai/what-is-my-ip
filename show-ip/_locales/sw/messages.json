@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Onyesha Anwani Zangu za IP (Nje na Ndani)",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  },
+  "appDesc": {
+    "message": "Onyesha anwani zako za IP za nje na ndani kwa mbofyo mmoja. https://helloacm.com/what-is-my-ip/",
+    "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
+  }
+}

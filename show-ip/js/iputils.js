@@ -133,14 +133,19 @@
 
   /**
    * Prepend an IP to history without duplicates, returning a NEW array.
+   * An optional positive `limit` caps the history length (newest kept).
    * @param {string[]} list
    * @param {string} ip
+   * @param {number} [limit] Maximum entries to keep (omit/<=0 for unlimited).
    * @returns {string[]}
    */
-  function dedupePrepend(list, ip) {
+  function dedupePrepend(list, ip, limit) {
     const safe = Array.isArray(list) ? list : [];
-    if (!ip || safe.includes(ip)) return safe.slice();
-    return [ip, ...safe];
+    const next = !ip || safe.includes(ip) ? safe.slice() : [ip, ...safe];
+    if (typeof limit === 'number' && limit > 0 && next.length > limit) {
+      return next.slice(0, limit);
+    }
+    return next;
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "what-is-my-ip",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Chrome extension that shows your external and local IP addresses in one click.",
   "private": true,
   "engines": {
@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check && npm run coverage",
+    "check": "npm run lint && npm run format:check && npm run coverage && npm run build",
     "build": "node scripts/build.js"
   },
   "keywords": [
