@@ -124,6 +124,11 @@ describe('parseIpResponse', () => {
     expect(IPUtils.parseIpResponse({})).toBe('');
     expect(IPUtils.parseIpResponse({ ip: 123 })).toBe('');
   });
+
+  test('rejects non-IP response payloads', () => {
+    expect(IPUtils.parseIpResponse('<html>upstream error</html>')).toBe('');
+    expect(IPUtils.parseIpResponse({ ip: 'not-an-ip' })).toBe('');
+  });
 });
 
 describe('dedupePrepend', () => {
@@ -152,6 +157,21 @@ describe('dedupePrepend', () => {
   });
   test('trims an over-long list even when the ip is a duplicate', () => {
     expect(IPUtils.dedupePrepend(['a', 'b', 'c'], 'a', 2)).toEqual(['a', 'b']);
+  });
+});
+
+describe('normalizeHistory', () => {
+  test('keeps valid IPs, removes malformed entries, deduplicates, trims, and caps', () => {
+    expect(
+      IPUtils.normalizeHistory(
+        [null, { ip: 'bad' }, ' 8.8.8.8 ', 'not-an-ip', '8.8.8.8', '2001:db8::1', '1.1.1.1'],
+        2
+      )
+    ).toEqual(['8.8.8.8', '2001:db8::1']);
+  });
+
+  test('tolerates non-array history', () => {
+    expect(IPUtils.normalizeHistory({ ip: '8.8.8.8' })).toEqual([]);
   });
 });
 
