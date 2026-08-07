@@ -47,6 +47,15 @@ describe('renderCoverageReport', () => {
     expect(report).toContain('| \u{1F534} | Lines | 80% (\u{1F3AF} 81%) | 8 / 10 |');
   });
 
+  test('derives percentages from validated counts instead of trusting artifact pct', () => {
+    const report = renderCoverageReport(
+      summaryWith({ total: 10, covered: 0, skipped: 0, pct: 100 }),
+      thresholds
+    );
+
+    expect(report).toContain('| \u{1F534} | Lines | 0% (\u{1F3AF} 95%) | 0 / 10 |');
+  });
+
   test('rejects a malformed summary', () => {
     expect(() => renderCoverageReport({}, thresholds)).toThrow(
       'Coverage summary must include total metrics.'

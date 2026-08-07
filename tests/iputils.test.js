@@ -160,6 +160,21 @@ describe('dedupePrepend', () => {
   });
 });
 
+describe('normalizeHistory', () => {
+  test('keeps valid IPs, removes malformed entries, deduplicates, trims, and caps', () => {
+    expect(
+      IPUtils.normalizeHistory(
+        [null, { ip: 'bad' }, ' 8.8.8.8 ', 'not-an-ip', '8.8.8.8', '2001:db8::1', '1.1.1.1'],
+        2
+      )
+    ).toEqual(['8.8.8.8', '2001:db8::1']);
+  });
+
+  test('tolerates non-array history', () => {
+    expect(IPUtils.normalizeHistory({ ip: '8.8.8.8' })).toEqual([]);
+  });
+});
+
 describe('getChromeVersion', () => {
   test('parses chrome', () => {
     expect(IPUtils.getChromeVersion('Mozilla/5.0 (X11) Chrome/120.0.0.0 Safari/537')).toBe(120);

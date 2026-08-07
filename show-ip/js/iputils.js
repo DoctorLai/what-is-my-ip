@@ -150,6 +150,27 @@
   }
 
   /**
+   * Normalise stored public-IP history to unique, valid addresses in newest-first order.
+   * @param {unknown[]} list
+   * @param {number} [limit] Maximum entries to keep (omit/<=0 for unlimited).
+   * @returns {string[]}
+   */
+  function normalizeHistory(list, limit) {
+    const seen = [];
+    const safe = Array.isArray(list) ? list : [];
+    for (const value of safe) {
+      const ip = typeof value === 'string' ? value.trim() : '';
+      if (classifyIP(ip) !== 'invalid' && !seen.includes(ip)) {
+        seen.push(ip);
+      }
+      if (typeof limit === 'number' && limit > 0 && seen.length >= limit) {
+        break;
+      }
+    }
+    return seen;
+  }
+
+  /**
    * Parse the major Chrome/Chromium version from a user-agent string.
    * @param {string} ua
    * @returns {number|false}
@@ -179,6 +200,7 @@
     extractIpFromCandidate,
     parseIpResponse,
     dedupePrepend,
+    normalizeHistory,
     getChromeVersion,
     formatTime,
   };

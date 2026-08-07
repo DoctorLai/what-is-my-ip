@@ -12,12 +12,17 @@ const metricFields = ['total', 'covered', 'skipped'];
 const MAX_FILES = 250;
 const MAX_FILE_PATH_LENGTH = 500;
 
+function metricPercentage(metric) {
+  if (metric.total === 0) return 100;
+  return Number(((metric.covered / metric.total) * 100).toFixed(2));
+}
+
 function percentage(metric) {
-  return `${metric.pct}%`;
+  return `${metricPercentage(metric)}%`;
 }
 
 function status(metric, target) {
-  return metric.pct >= target ? '\u{1F535}' : '\u{1F534}';
+  return metricPercentage(metric) >= target ? '\u{1F535}' : '\u{1F534}';
 }
 
 function validateMetric(metric, label) {

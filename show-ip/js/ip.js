@@ -162,7 +162,7 @@ document.addEventListener(
 
     chrome.storage.sync.get('showip', function (data) {
       if (data && data.showip) {
-        prevAddr = Array.isArray(data.showip.external_ip) ? data.showip.external_ip : [];
+        prevAddr = IP.normalizeHistory(data.showip.external_ip, MAX_HISTORY);
         $('#ip3').val(prevAddr.map(annotate).join('\n'));
       }
       lookupExternalIP();
