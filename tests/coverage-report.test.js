@@ -56,6 +56,15 @@ describe('renderCoverageReport', () => {
     expect(report).toContain('| \u{1F534} | Lines | 0% (\u{1F3AF} 95%) | 0 / 10 |');
   });
 
+  test('treats zero-total metrics as 0 percent from counts', () => {
+    const report = renderCoverageReport(
+      summaryWith({ total: 0, covered: 0, skipped: 0, pct: 100 }),
+      thresholds
+    );
+
+    expect(report).toContain('| \u{1F534} | Lines | 0% (\u{1F3AF} 95%) | 0 / 0 |');
+  });
+
   test('rejects a malformed summary', () => {
     expect(() => renderCoverageReport({}, thresholds)).toThrow(
       'Coverage summary must include total metrics.'

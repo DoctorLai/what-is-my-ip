@@ -13,7 +13,7 @@ const MAX_FILES = 250;
 const MAX_FILE_PATH_LENGTH = 500;
 
 function metricPercentage(metric) {
-  if (metric.total === 0) return 100;
+  if (metric.total === 0) return 0;
   return Number(((metric.covered / metric.total) * 100).toFixed(2));
 }
 
