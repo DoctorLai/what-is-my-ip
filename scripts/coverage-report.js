@@ -21,7 +21,7 @@ function percentage(metric) {
   return `${metricPercentage(metric)}%`;
 }
 
-function status(metric, target) {
+function metricStatus(metric, target) {
   return metricPercentage(metric) >= target ? '\u{1F535}' : '\u{1F534}';
 }
 
@@ -104,7 +104,7 @@ function renderCoverageReport(summary, thresholds, details = {}) {
     const metric = validateMetric(summary.total[key], `total.${key}`);
     const target = validateTarget(thresholds[key], key);
     report.push(
-      `| ${status(metric, target)} | ${label} | ${percentage(metric)} (\u{1F3AF} ${target}%) | ${metric.covered} / ${metric.total} |`
+      `| ${metricStatus(metric, target)} | ${label} | ${percentage(metric)} (\u{1F3AF} ${target}%) | ${metric.covered} / ${metric.total} |`
     );
   }
 
