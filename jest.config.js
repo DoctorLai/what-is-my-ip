@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
-  collectCoverageFrom: ['show-ip/js/iputils.js'],
-  coverageReporters: ['text', 'lcov'],
+  collectCoverageFrom: ['show-ip/js/iputils.js', 'scripts/coverage-report.js'],
+  coverageReporters: ['text', 'lcov', 'json-summary'],
   coverageThreshold: {
     global: {
       statements: 95,

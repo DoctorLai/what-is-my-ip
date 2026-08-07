@@ -10,8 +10,22 @@ permissions:
   contents: read
 
 jobs:
+  quality:
+    name: Lint & format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+
   test:
-    name: Lint, format & test
+    name: Test (Node.js ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,20 +38,60 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
       - run: npm ci
-      - run: npm run lint
-      - run: npm run format:check
-      - run: npm run coverage
+      - name: Run tests
+        if: matrix.node-version != 22
+        run: npm test
+      - name: Run tests with coverage
+        if: matrix.node-version == 22
+        run: npm run coverage
+      - name: Prepare coverage artifact
+        id: prepare-coverage
+        if: always() && github.event_name == 'pull_request' && matrix.node-version == 22
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const summary = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
+            if (!fs.existsSync(summary)) {
+              core.notice('Coverage summary was not generated; skipping report artifact.');
+              core.setOutput('ready', 'false');
+              return;
+            }
+
+            const output = path.join(process.env.RUNNER_TEMP, 'coverage-report');
+            fs.mkdirSync(output, { recursive: true });
+            fs.copyFileSync(summary, path.join(output, 'coverage-summary.json'));
+            fs.writeFileSync(
+              path.join(output, 'context.json'),
+              JSON.stringify({
+                pullRequest: Number(process.env.PR_NUMBER),
+                headSha: process.env.HEAD_SHA,
+              })
+            );
+            core.setOutput('ready', 'true');
+      - name: Upload coverage artifact
+        if: always() && steps.prepare-coverage.outputs.ready == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: ${{ runner.temp }}/coverage-report
+          retention-days: 1
+          if-no-files-found: error
 
   build:
     name: Build extension package
     runs-on: ubuntu-latest
-    needs: test
+    needs: [quality, test]
     steps:
       - uses: actions/checkout@v7
       - name: Use Node.js 22
         uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm run build

@@ -23,6 +23,7 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/m/DoctorLai/what-is-my-ip.svg)](https://github.com/DoctorLai/what-is-my-ip/graphs/commit-activity)
 [![Repo size](https://img.shields.io/github/repo-size/DoctorLai/what-is-my-ip.svg)](https://github.com/DoctorLai/what-is-my-ip)
 [![Top language](https://img.shields.io/github/languages/top/DoctorLai/what-is-my-ip.svg?logo=javascript)](https://github.com/DoctorLai/what-is-my-ip/search?l=javascript)
+[![JavaScript](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FDoctorLai%2Fwhat-is-my-ip%2Fbadges%2Fjavascript.json)](https://github.com/DoctorLai/what-is-my-ip/search?l=javascript)
 [![Code size](https://img.shields.io/github/languages/code-size/DoctorLai/what-is-my-ip.svg)](https://github.com/DoctorLai/what-is-my-ip)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -48,6 +49,7 @@ A lightweight **Chrome extension** that shows both your **external (public)** an
 - [Building for the Chrome Web Store](#building-for-the-chrome-web-store)
 - [Contributing](#contributing)
 - [Support](#support)
+- [Release history](#release-history)
 - [License](#license)
 
 ## Features
@@ -59,7 +61,8 @@ A lightweight **Chrome extension** that shows both your **external (public)** an
 - 🔄 One-click **Refresh** — with a busy indicator — to re-check without reopening the popup.
 - 🌓 Automatic **dark mode** that follows your system theme.
 - 📋 One-click copy-to-clipboard for every field.
-- 🌍 Store listing localised in 25+ languages (en, zh, es, hi, ar, bn, pt, ru, ja, de, fr, ko, it, ta, te, mr, sw, and more).
+- 🌍 Store listing localised in 28 locales across 25 languages, including
+  Simplified Chinese (`zh_CN`) and Traditional Chinese (`zh_TW`).
 
 ## Install
 
@@ -100,7 +103,8 @@ it privately.
 ## Development
 
 ```bash
-npm install        # install dev tooling
+nvm use            # optional: select the recommended Node.js version
+npm ci             # install the locked dev tooling
 npm test           # run unit tests
 npm run coverage   # tests + coverage report (enforces a minimum threshold)
 npm run lint       # ESLint
@@ -113,12 +117,18 @@ The browser-independent logic lives in [show-ip/js/iputils.js](show-ip/js/iputil
 
 ### Testing
 
-Unit tests run in Node with Jest — no browser required, because all testable
-logic lives in [show-ip/js/iputils.js](show-ip/js/iputils.js). The suite also
-asserts packaging invariants (manifest ↔ `package.json` version sync, network
-endpoints ↔ `host_permissions`, and locale integrity). `npm run coverage`
-enforces a minimum threshold (95% statements/lines/functions, 90% branches) and
-fails the build if coverage drops below it.
+Unit tests run in Node with Jest. Enforced coverage includes the pure extension
+helpers in [show-ip/js/iputils.js](show-ip/js/iputils.js) and the coverage report
+renderer in [scripts/coverage-report.js](scripts/coverage-report.js). The
+DOM/Chrome wiring in [show-ip/js/ip.js](show-ip/js/ip.js) is outside the numeric
+coverage scope; focused mocks, packaging invariants, and manual Chrome testing
+cover that integration boundary.
+
+The suite also asserts manifest/package version synchronization, network
+endpoint permissions, and locale integrity. `npm run coverage` enforces a
+minimum threshold (95% statements/lines/functions, 90% branches) and fails the
+build if coverage drops below it. Pull requests receive an updated coverage
+comment with totals, targets, and per-file results after CI completes.
 
 ## Project structure
 
@@ -131,13 +141,18 @@ show-ip/              Extension source (Manifest V3)
   _locales/           Store-listing translations (25+ languages)
 tests/                Jest unit tests (helpers + packaging invariants)
 scripts/build.js      Cross-platform zip packager for the Web Store
+scripts/coverage-report.js  Validates and renders PR coverage reports
 .github/
-  workflows/ci.yml    CI: lint, format check, coverage on Node 18/20/22 + build
+  workflows/ci.yml    CI: lint, format, tests on Node 18/20/22, coverage + build
+  workflows/coverage-report.yml  Secure PR coverage comment publisher
+  workflows/badges.yml  Publishes JavaScript percentage to the badges branch
   dependabot.yml      Weekly npm + GitHub Actions dependency updates
   ISSUE_TEMPLATE/     Bug report & feature request forms
 CONTRIBUTING.md       Contributor guide
 SECURITY.md           Security policy & disclosure process
 PRIVACY.md            Privacy policy
+SUPPORT.md            Support channels and reporting guidance
+CHANGELOG.md          Versioned release history
 ```
 
 ## Building for the Chrome Web Store
@@ -158,7 +173,12 @@ before submitting.
 
 ## Support
 
-- Buy me a coffee: <https://www.paypal.me/doctorlai/3> · <https://justyy.com/out/buymeacoffee>
+Read [SUPPORT.md](SUPPORT.md) for troubleshooting and issue-reporting guidance.
+To support ongoing maintenance: <https://www.paypal.me/doctorlai/3>.
+
+## Release history
+
+See [CHANGELOG.md](CHANGELOG.md) for notable changes by version.
 
 ## Related posts
 

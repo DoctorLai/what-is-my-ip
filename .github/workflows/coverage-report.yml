@@ -1,0 +1,147 @@
+name: Coverage Report
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+
+jobs:
+  comment:
+    name: Comment on pull request
+    if: github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Find coverage artifact
+        id: artifact
+        uses: actions/github-script@v8
+        with:
+          result-encoding: string
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listWorkflowRunArtifacts,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.payload.workflow_run.id,
+                per_page: 100,
+              }
+            );
+            const report = artifacts.find(
+              (artifact) => artifact.name === 'coverage-report' && !artifact.expired
+            );
+            return report ? String(report.id) : '';
+      - name: Download coverage artifact
+        if: steps.artifact.outputs.result != ''
+        uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ steps.artifact.outputs.result }}
+          path: ${{ runner.temp }}/coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Update coverage comment
+        if: steps.artifact.outputs.result != ''
+        uses: actions/github-script@v8
+        env:
+          REPORT_PATH: ${{ runner.temp }}/coverage-report
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const { renderCoverageReport } = require('./scripts/coverage-report');
+            const config = require('./jest.config');
+
+            const reportPath = process.env.REPORT_PATH;
+            const readArtifactJson = (fileName, maxBytes) => {
+              const filePath = path.join(reportPath, fileName);
+              const file = fs.statSync(filePath);
+              if (!file.isFile() || file.size > maxBytes) {
+                throw new Error(`${fileName} is not a valid coverage artifact file.`);
+              }
+              return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+            };
+            const metadata = readArtifactJson('context.json', 4096);
+            const summary = readArtifactJson('coverage-summary.json', 1_000_000);
+            if (!Number.isInteger(metadata.pullRequest) || metadata.pullRequest < 1) {
+              throw new Error('Coverage artifact contains an invalid pull request number.');
+            }
+            if (
+              typeof metadata.headSha !== 'string' ||
+              !/^[0-9a-f]{40}$/i.test(metadata.headSha) ||
+              metadata.headSha !== context.payload.workflow_run.head_sha
+            ) {
+              throw new Error('Coverage artifact does not match the triggering commit.');
+            }
+
+            const associatedPulls = await github.paginate(
+              github.rest.repos.listPullRequestsAssociatedWithCommit,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: context.payload.workflow_run.head_sha,
+                per_page: 100,
+              }
+            );
+            if (!associatedPulls.some((pull) => pull.number === metadata.pullRequest)) {
+              throw new Error('Coverage artifact does not belong to the triggering workflow.');
+            }
+
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: metadata.pullRequest,
+            });
+            if (pull.data.head.sha !== metadata.headSha) {
+              core.notice('Skipping a stale coverage report for an older PR commit.');
+              return;
+            }
+
+            const repository = `${context.repo.owner}/${context.repo.repo}`;
+            const serverUrl = context.serverUrl;
+            const marker = '<!-- what-is-my-ip-coverage-report -->';
+            const body = `${marker}\n${renderCoverageReport(
+              summary,
+              config.coverageThreshold.global,
+              {
+                repository,
+                runNumber: context.payload.workflow_run.run_number,
+                runUrl: `${serverUrl}/${repository}/actions/runs/${context.payload.workflow_run.id}`,
+                sha: metadata.headSha,
+                commitUrl: `${serverUrl}/${repository}/commit/${metadata.headSha}`,
+              }
+            )}`;
+            if (body.length > 60_000) {
+              throw new Error('Coverage report is too large for a pull request comment.');
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: metadata.pullRequest,
+              per_page: 100,
+            });
+            const previous = comments.find(
+              (comment) => comment.user.type === 'Bot' && comment.body.includes(marker)
+            );
+            if (previous) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: previous.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: metadata.pullRequest,
+                body,
+              });
+            }

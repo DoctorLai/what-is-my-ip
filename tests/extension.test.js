@@ -47,6 +47,54 @@ describe('annotate', () => {
   test('passes through invalid', () => expect(annotate('nope')).toBe('nope'));
 });
 
+describe('process', () => {
+  let processIp;
+  let historyField;
+  let setStorage;
+
+  beforeEach(() => {
+    jest.resetModules();
+    global.document = { addEventListener() {} };
+    historyField = { val: jest.fn() };
+    setStorage = jest.fn();
+    global.$ = jest.fn(() => historyField);
+    global.chrome = { storage: { sync: { set: setStorage } } };
+    ({ process: processIp } = require('../show-ip/js/ip'));
+  });
+
+  afterEach(() => {
+    delete global.$;
+    delete global.chrome;
+  });
+
+  test('persists a new IP when capped history stays the same length', () => {
+    for (let index = 0; index < 50; index += 1) {
+      processIp(`203.0.113.${index}`);
+    }
+    historyField.val.mockClear();
+    setStorage.mockClear();
+
+    processIp('198.51.100.1');
+
+    const saved = setStorage.mock.calls[0][0].showip.external_ip;
+    expect(saved).toHaveLength(50);
+    expect(saved[0]).toBe('198.51.100.1');
+    expect(saved).not.toContain('203.0.113.0');
+    expect(historyField.val).toHaveBeenCalledTimes(1);
+  });
+
+  test('does not persist an unchanged history', () => {
+    processIp('8.8.8.8');
+    historyField.val.mockClear();
+    setStorage.mockClear();
+
+    processIp('8.8.8.8');
+
+    expect(historyField.val).not.toHaveBeenCalled();
+    expect(setStorage).not.toHaveBeenCalled();
+  });
+});
+
 describe('locales', () => {
   const dir = path.join(root, 'show-ip', '_locales');
   const locales = fs.readdirSync(dir);

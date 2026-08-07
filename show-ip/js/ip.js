@@ -67,7 +67,9 @@ function logit(msg) {
 
 function process(currentIp) {
   const next = IP.dedupePrepend(prevAddr, currentIp, MAX_HISTORY);
-  if (next.length !== prevAddr.length) {
+  const changed =
+    next.length !== prevAddr.length || next.some((value, index) => value !== prevAddr[index]);
+  if (changed) {
     prevAddr = next;
     $('#ip3').val(prevAddr.map(annotate).join('\n'));
     saveSettings();
@@ -160,7 +162,7 @@ document.addEventListener(
 
     chrome.storage.sync.get('showip', function (data) {
       if (data && data.showip) {
-        prevAddr = data.showip.external_ip || [];
+        prevAddr = Array.isArray(data.showip.external_ip) ? data.showip.external_ip : [];
         $('#ip3').val(prevAddr.map(annotate).join('\n'));
       }
       lookupExternalIP();

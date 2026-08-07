@@ -124,6 +124,11 @@ describe('parseIpResponse', () => {
     expect(IPUtils.parseIpResponse({})).toBe('');
     expect(IPUtils.parseIpResponse({ ip: 123 })).toBe('');
   });
+
+  test('rejects non-IP response payloads', () => {
+    expect(IPUtils.parseIpResponse('<html>upstream error</html>')).toBe('');
+    expect(IPUtils.parseIpResponse({ ip: 'not-an-ip' })).toBe('');
+  });
 });
 
 describe('dedupePrepend', () => {

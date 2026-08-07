@@ -124,11 +124,12 @@
    */
   function parseIpResponse(data) {
     if (!data) return '';
-    if (typeof data === 'string') return data.trim();
+    let ip = '';
+    if (typeof data === 'string') ip = data.trim();
     if (typeof data === 'object' && typeof data.ip === 'string') {
-      return data.ip.trim();
+      ip = data.ip.trim();
     }
-    return '';
+    return classifyIP(ip) === 'invalid' ? '' : ip;
   }
 
   /**
