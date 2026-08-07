@@ -4,7 +4,7 @@
   "description": "Chrome extension that shows your external and local IP addresses in one click.",
   "private": true,
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "test": "jest",
@@ -36,8 +36,10 @@
     "url": "https://github.com/doctorlai/what-is-my-ip/issues"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "archiver": "^7.0.1",
     "eslint": "^10.7.0",
+    "globals": "17.9.0",
     "jest": "^30.4.2",
     "prettier": "^3.9.6"
   }
