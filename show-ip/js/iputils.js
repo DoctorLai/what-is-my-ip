@@ -156,18 +156,20 @@
    * @returns {string[]}
    */
   function normalizeHistory(list, limit) {
-    const seen = [];
+    const normalized = [];
+    const seen = new Set();
     const safe = Array.isArray(list) ? list : [];
     for (const value of safe) {
       const ip = typeof value === 'string' ? value.trim() : '';
-      if (classifyIP(ip) !== 'invalid' && !seen.includes(ip)) {
-        seen.push(ip);
+      if (classifyIP(ip) !== 'invalid' && !seen.has(ip)) {
+        seen.add(ip);
+        normalized.push(ip);
       }
-      if (typeof limit === 'number' && limit > 0 && seen.length >= limit) {
+      if (typeof limit === 'number' && limit > 0 && normalized.length >= limit) {
         break;
       }
     }
-    return seen;
+    return normalized;
   }
 
   /**
