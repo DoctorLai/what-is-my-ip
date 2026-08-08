@@ -16,7 +16,7 @@ uses [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- CI now runs lint and formatting once, tests Node.js 18, 20, and 22, enforces
+- CI now runs lint and formatting once, tests Node.js 20 and 22, enforces
   coverage on Node.js 22, and builds the Web Store package.
 - The extension and package version are now `1.1.2`.
 - Vulnerable transitive development dependencies were updated to patched versions.

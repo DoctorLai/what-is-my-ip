@@ -16,13 +16,8 @@ before reporting an issue.
 
 **Please do not open a public GitHub issue for security vulnerabilities.**
 
-Instead, report it privately using one of the following channels:
-
-1. **GitHub Security Advisories (preferred).** Go to the
-   [Security tab](https://github.com/DoctorLai/what-is-my-ip/security/advisories/new)
-   and open a private vulnerability report.
-2. **Email.** Write to **dr.zhihua.lai@gmail.com** with the subject
-   `[what-is-my-ip] security`.
+Instead, report it privately by email to **dr.zhihua.lai@gmail.com** with the
+subject `[what-is-my-ip] security`.
 
 Please include:
 

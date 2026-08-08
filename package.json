@@ -4,7 +4,7 @@
   "description": "Chrome extension that shows your external and local IP addresses in one click.",
   "private": true,
   "engines": {
-    "node": ">=20.19.0"
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   },
   "scripts": {
     "test": "jest",

@@ -3,7 +3,7 @@
 <!-- Build & quality -->
 
 [![CI](https://github.com/DoctorLai/what-is-my-ip/actions/workflows/ci.yml/badge.svg)](https://github.com/DoctorLai/what-is-my-ip/actions/workflows/ci.yml)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![Node.js](https://img.shields.io/badge/node-20.19%20%7C%2022.13%20%7C%2024%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Manifest V3](https://img.shields.io/badge/manifest-v3-blue.svg)](show-ip/manifest.json)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io)
 [![License](https://img.shields.io/github/license/DoctorLai/what-is-my-ip.svg)](LICENSE)
@@ -143,7 +143,7 @@ tests/                Jest unit tests (helpers + packaging invariants)
 scripts/build.js      Cross-platform zip packager for the Web Store
 scripts/coverage-report.js  Validates and renders PR coverage reports
 .github/
-  workflows/ci.yml    CI: lint, format, tests on Node 18/20/22, coverage + build
+  workflows/ci.yml    CI: lint, format, tests on Node 20/22, coverage + build
   workflows/coverage-report.yml  Secure PR coverage comment publisher
   workflows/badges.yml  Publishes JavaScript percentage to the badges branch
   dependabot.yml      Weekly npm + GitHub Actions dependency updates
