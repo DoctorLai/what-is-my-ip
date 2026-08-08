@@ -16,6 +16,29 @@ describe('extension package', () => {
     expect(html.indexOf('js/ip.js')).toBeGreaterThan(html.indexOf('js/iputils.js'));
   });
 
+  test('manifest icons are minimal 8-bit RGBA PNGs at their declared sizes', () => {
+    const manifest = JSON.parse(readProjectFile('show-ip/manifest.json'));
+
+    for (const [declaredSize, iconPath] of Object.entries(manifest.icons)) {
+      const png = fs.readFileSync(path.join(root, 'show-ip', iconPath));
+      expect(png.subarray(0, 8)).toEqual(
+        Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+      );
+      expect(png.readUInt32BE(16)).toBe(Number(declaredSize));
+      expect(png.readUInt32BE(20)).toBe(Number(declaredSize));
+      expect(png[24]).toBe(8);
+      expect(png[25]).toBe(6);
+
+      const chunks = [];
+      for (let offset = 8; offset < png.length;) {
+        const length = png.readUInt32BE(offset);
+        chunks.push(png.toString('ascii', offset + 4, offset + 8));
+        offset += length + 12;
+      }
+      expect(new Set(chunks)).toEqual(new Set(['IHDR', 'IDAT', 'IEND']));
+    }
+  });
+
   test('manifest allows every network endpoint used by the popup', () => {
     const manifest = JSON.parse(readProjectFile('show-ip/manifest.json'));
     const popup = readProjectFile('show-ip/js/ip.js');
