@@ -6,8 +6,8 @@ extension, so the workflow is intentionally lightweight.
 ## Getting started
 
 1. **Fork** the repository and clone your fork.
-2. Use Node.js 18 or newer. Node.js 22 is recommended and recorded in `.nvmrc`;
-   run `nvm use` to select it.
+2. Use Node.js 20.19+, 22.13+, or 24+. Node.js 22 is recommended and recorded
+   in `.nvmrc`; run `nvm use` to select it.
 3. Install the locked development tooling with `npm ci`.
 
 4. Load the extension while you work: open `chrome://extensions`, enable
