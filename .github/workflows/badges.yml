@@ -1,0 +1,112 @@
+name: Badges
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: badges
+  cancel-in-progress: true
+
+jobs:
+  language:
+    name: Update JavaScript percentage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish badge data
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { data: languages } = await github.rest.repos.listLanguages({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const total = Object.values(languages).reduce((sum, bytes) => sum + bytes, 0);
+            if (total === 0) throw new Error('GitHub did not report any language data.');
+
+            const value = (((languages.JavaScript || 0) / total) * 100).toFixed(1);
+            const badge = {
+              schemaVersion: 1,
+              label: 'JavaScript',
+              message: `${value}%`,
+              color: 'f1e05a',
+            };
+            const blob = await github.rest.git.createBlob({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              content: Buffer.from(`${JSON.stringify(badge, null, 2)}\n`).toString('base64'),
+              encoding: 'base64',
+            });
+
+            let branchExists = true;
+            let parentSha;
+            let baseTree;
+            try {
+              const ref = await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'heads/badges',
+              });
+              parentSha = ref.data.object.sha;
+              const parent = await github.rest.git.getCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: parentSha,
+              });
+              baseTree = parent.data.tree.sha;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              branchExists = false;
+              const repository = await github.rest.repos.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const defaultBranch = await github.rest.repos.getBranch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: repository.data.default_branch,
+              });
+              parentSha = defaultBranch.data.commit.sha;
+            }
+
+            const treeOptions = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tree: [
+                {
+                  path: 'javascript.json',
+                  mode: '100644',
+                  type: 'blob',
+                  sha: blob.data.sha,
+                },
+              ],
+            };
+            if (baseTree) treeOptions.base_tree = baseTree;
+            const tree = await github.rest.git.createTree(treeOptions);
+            const commit = await github.rest.git.createCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              message: 'chore: update JavaScript badge [skip ci]',
+              tree: tree.data.sha,
+              parents: [parentSha],
+            });
+
+            if (branchExists) {
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'heads/badges',
+                sha: commit.data.sha,
+              });
+            } else {
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/heads/badges',
+                sha: commit.data.sha,
+              });
+            }

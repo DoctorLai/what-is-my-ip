@@ -124,11 +124,12 @@
    */
   function parseIpResponse(data) {
     if (!data) return '';
-    if (typeof data === 'string') return data.trim();
+    let ip = '';
+    if (typeof data === 'string') ip = data.trim();
     if (typeof data === 'object' && typeof data.ip === 'string') {
-      return data.ip.trim();
+      ip = data.ip.trim();
     }
-    return '';
+    return classifyIP(ip) === 'invalid' ? '' : ip;
   }
 
   /**
@@ -146,6 +147,29 @@
       return next.slice(0, limit);
     }
     return next;
+  }
+
+  /**
+   * Normalise stored public-IP history to unique, valid addresses in newest-first order.
+   * @param {unknown[]} list
+   * @param {number} [limit] Maximum entries to keep (omit/<=0 for unlimited).
+   * @returns {string[]}
+   */
+  function normalizeHistory(list, limit) {
+    const normalized = [];
+    const seen = new Set();
+    const safe = Array.isArray(list) ? list : [];
+    for (const value of safe) {
+      const ip = typeof value === 'string' ? value.trim() : '';
+      if (classifyIP(ip) !== 'invalid' && !seen.has(ip)) {
+        seen.add(ip);
+        normalized.push(ip);
+      }
+      if (typeof limit === 'number' && limit > 0 && normalized.length >= limit) {
+        break;
+      }
+    }
+    return normalized;
   }
 
   /**
@@ -178,6 +202,7 @@
     extractIpFromCandidate,
     parseIpResponse,
     dedupePrepend,
+    normalizeHistory,
     getChromeVersion,
     formatTime,
   };

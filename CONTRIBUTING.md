@@ -6,26 +6,25 @@ extension, so the workflow is intentionally lightweight.
 ## Getting started
 
 1. **Fork** the repository and clone your fork.
-2. Install the development tooling:
+2. Use Node.js 18 or newer. Node.js 22 is recommended and recorded in `.nvmrc`;
+   run `nvm use` to select it.
+3. Install the locked development tooling with `npm ci`.
 
-   ```bash
-   npm install
-   ```
-
-3. Load the extension while you work: open `chrome://extensions`, enable
+4. Load the extension while you work: open `chrome://extensions`, enable
    **Developer mode**, click **Load unpacked**, and select the
    [`show-ip`](show-ip) folder. Reload the extension after each change.
 
 ## Project layout
 
-| Path                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `show-ip/`              | The extension itself (Manifest V3).              |
-| `show-ip/js/iputils.js` | Pure, dependency-free helpers — **unit tested**. |
-| `show-ip/js/ip.js`      | Popup logic / DOM + Chrome API wiring.           |
-| `show-ip/_locales/`     | Translations (`messages.json` per locale).       |
-| `tests/`                | Jest unit tests.                                 |
-| `scripts/build.js`      | Packages `show-ip/` into a Web Store `.zip`.     |
+| Path                         | Purpose                                          |
+| ---------------------------- | ------------------------------------------------ |
+| `show-ip/`                   | The extension itself (Manifest V3).              |
+| `show-ip/js/iputils.js`      | Pure, dependency-free helpers — **unit tested**. |
+| `show-ip/js/ip.js`           | Popup logic / DOM + Chrome API wiring.           |
+| `show-ip/_locales/`          | Translations (`messages.json` per locale).       |
+| `tests/`                     | Jest unit tests.                                 |
+| `scripts/build.js`           | Packages `show-ip/` into a Web Store `.zip`.     |
+| `scripts/coverage-report.js` | Validates and renders PR coverage reports.       |
 
 Keep browser-independent logic in `iputils.js` so it can be tested in Node.
 Anything that touches the DOM, jQuery, or `chrome.*` APIs belongs in `ip.js`.
@@ -45,7 +44,8 @@ npm run build       # package show-ip/ into dist/show-ip-<version>.zip
 ## Before you open a pull request
 
 - Run `npm run check` and make sure it passes.
-- Add or update tests for any behaviour you change in `iputils.js`.
+- Add or update tests for changed behavior. Manually exercise Chrome-specific
+  popup flows that cannot run in Node.
 - If you add or remove a network endpoint in `ip.js`, update
   `host_permissions` in [`show-ip/manifest.json`](show-ip/manifest.json) — a test
   enforces that they stay in sync.

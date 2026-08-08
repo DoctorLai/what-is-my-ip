@@ -1,6 +1,6 @@
 {
   "name": "what-is-my-ip",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Chrome extension that shows your external and local IP addresses in one click.",
   "private": true,
   "engines": {
