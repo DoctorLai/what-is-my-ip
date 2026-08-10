@@ -4,7 +4,7 @@
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   },
   "appDesc": {
-    "message": "Shows your external and local IP addresses in one click. https://helloacm.com/what-is-my-ip/",
+    "message": "Shows your external and local IP addresses in one click.",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   }
 }

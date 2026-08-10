@@ -61,8 +61,7 @@ A lightweight **Chrome extension** that shows both your **external (public)** an
 - 🔄 One-click **Refresh** — with a busy indicator — to re-check without reopening the popup.
 - 🌓 Automatic **dark mode** that follows your system theme.
 - 📋 One-click copy-to-clipboard for every field.
-- 🌍 Store listing localised in 28 locales across 25 languages, including
-  Simplified Chinese (`zh_CN`) and Traditional Chinese (`zh_TW`).
+- 🌍 Localised extension metadata for supported browser locales.
 
 ## Install
 
@@ -138,7 +137,7 @@ show-ip/              Extension source (Manifest V3)
   main.html           Popup markup + styles
   js/iputils.js       Pure, tested helpers (validation, classification, parsing)
   js/ip.js            Popup logic / DOM + Chrome API wiring
-  _locales/           Store-listing translations (25+ languages)
+  _locales/           Localised extension name and short description
 tests/                Jest unit tests (helpers + packaging invariants)
 scripts/build.js      Cross-platform zip packager for the Web Store
 scripts/coverage-report.js  Validates and renders PR coverage reports
@@ -165,6 +164,8 @@ This reads the version from [show-ip/manifest.json](show-ip/manifest.json) and
 writes `dist/show-ip-<version>.zip`. The packager is pure Node (via `archiver`),
 so it works on Windows, macOS and Linux without a system `zip` binary. Upload
 the resulting zip in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+Use the short and detailed descriptions in [STORE_LISTING.md](STORE_LISTING.md)
+for the listing; do not append a language or locale list.
 
 ## Contributing
 

@@ -5,6 +5,14 @@ uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-08-10
+
+### Changed
+
+- Updated the extension and package version to `1.1.3`.
+- Removed promotional URLs from localized short descriptions.
+- Added policy-safe Chrome Web Store copy without language-name keyword lists.
+
 ## [1.1.2] - 2026-08-07
 
 ### Added

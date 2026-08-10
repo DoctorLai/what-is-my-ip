@@ -4,7 +4,7 @@
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   },
   "appDesc": {
-    "message": "ワンクリックで外部とローカルのIPアドレスを表示します。 https://helloacm.com/what-is-my-ip/",
+    "message": "ワンクリックで外部とローカルのIPアドレスを表示します。",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   }
 }

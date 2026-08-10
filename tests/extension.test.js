@@ -138,6 +138,8 @@ describe('locales', () => {
     const msgs = JSON.parse(readProjectFile(`show-ip/_locales/${locale}/messages.json`));
     expect(msgs.appName.message.length).toBeGreaterThan(0);
     expect(msgs.appDesc.message.length).toBeGreaterThan(0);
+    expect(msgs.appName.message).not.toMatch(/https?:\/\//);
+    expect(msgs.appDesc.message).not.toMatch(/https?:\/\//);
   });
 
   test.each(locales)('%s defines every manifest __MSG_*__ key', (locale) => {

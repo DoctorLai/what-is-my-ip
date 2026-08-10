@@ -4,7 +4,7 @@
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   },
   "appDesc": {
-    "message": "এক ক্লিকে আপনার বাহ্যিক এবং স্থানীয় আইপি ঠিকানা দেখায়। https://helloacm.com/what-is-my-ip/",
+    "message": "এক ক্লিকে আপনার বাহ্যিক এবং স্থানীয় আইপি ঠিকানা দেখায়।",
     "description": "This chrome extension shows the external and internal IP addresses when you click the extension icon. https://helloacm.com/what-is-my-ip/"
   }
 }
