@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
       - name: Find coverage artifact
         id: artifact
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           result-encoding: string
           script: |
@@ -48,7 +48,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - name: Update coverage comment
         if: steps.artifact.outputs.result != ''
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           REPORT_PATH: ${{ runner.temp }}/coverage-report
         with:
